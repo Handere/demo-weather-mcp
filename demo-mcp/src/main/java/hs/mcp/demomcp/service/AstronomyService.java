@@ -1,7 +1,7 @@
 package hs.mcp.demomcp.service;
 
 import hs.mcp.demomcp.model.APIResponse;
-import hs.mcp.demomcp.model.AstronomyAstro;
+import hs.mcp.demomcp.model.Astro;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.tool.annotation.Tool;
@@ -25,24 +25,38 @@ public class AstronomyService {
     }
 
     @Tool(name = "get_astronomy", description = "Get the location and Astronomy Objects by city name and date in format yyyy-MM-dd")
-    public AstronomyAstro getAstronomy(String cityName, String date) {
-        return this.restClient.get()
-                .uri("/astronomy.json?key={apiKey}&q={cityName}&dt={date}", apiKey, cityName, date)
-                .retrieve()
-                .body(APIResponse.class)
-                .getAstronomy()
-                .getAstro();
+    public Astro getAstronomy(String cityName, String date) {
+        try {
+            var response = this.restClient.get()
+                    .uri("/astronomy.json?key={apiKey}&q={cityName}&dt={date}", apiKey, cityName, date)
+                    .retrieve()
+                    .body(APIResponse.class)
+                    .astronomy()
+                    .astro();
+            log.info(response.toString());
+            return response;
+        } catch (Exception e) {
+            log.info("Failed to get Astro: " + e.getMessage());
+            return null;
+        }
     }
 
     @Tool(name = "get_current_astronomy", description = "Get the location and Astronomy Objects by city name for current day")
-    public AstronomyAstro getCurrentAstronomy(String cityName) {
+    public Astro getCurrentAstronomy(String cityName) {
         var localDate = getCurrentDate();
-        var response = this.restClient.get()
-                .uri("/astronomy.json?key={apiKey}&q={cityName}&dt={date}", apiKey, cityName, localDate)
-                .retrieve()
-                .body(APIResponse.class);
-        log.info(response.getAstronomy().getAstro().toString());
-        return response.getAstronomy().getAstro();
+        try {
+            var response = this.restClient.get()
+                    .uri("/astronomy.json?key={apiKey}&q={cityName}&dt={date}", apiKey, cityName, localDate)
+                    .retrieve()
+                    .body(APIResponse.class)
+                    .astronomy()
+                    .astro();
+            log.info(response.toString());
+            return response;
+        } catch (Exception e) {
+            log.info("Failed to get Astro: " + e.getMessage());
+            return null;
+        }
     }
 
     private LocalDate getCurrentDate() {

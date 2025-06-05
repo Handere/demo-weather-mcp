@@ -5,36 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
 /* Model based on the class from WeatherApi.com */
-public class Location {
-    @JsonProperty("name")
-    private String name;
-
-    @JsonProperty("region")
-    private String region;
-
-    @JsonProperty("country")
-    private String country;
-
-    @JsonProperty("lat")
-    private BigDecimal lat;
-
-    @JsonProperty("lon")
-    private BigDecimal lon;
-
-    @JsonProperty("tz_id")
-    private String tzId;
-
-    @JsonProperty("localtime_epoch")
-    private Integer localtimeEpoch;
-
-    @JsonProperty("localtime")
-    private String localtime;
-
-    public Location() {
-    }
-
-    public Location name(String name) {
-        this.name = name;
-        return this;
-    }
+public record Location(
+        @JsonProperty("name") String name,
+        @JsonProperty("region") String region,
+        @JsonProperty("country") String country,
+        @JsonProperty("lat") BigDecimal lat,
+        @JsonProperty("lon") BigDecimal lon,
+        @JsonProperty("tz_id") String tzId,
+        @JsonProperty("localtime_epoch") Integer localtimeEpoch,
+        @JsonProperty("localtime") String localtime
+) {
 }

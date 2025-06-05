@@ -1,6 +1,6 @@
 hs/mcp/demomcp/model/Astronomy.class
+hs/mcp/demomcp/model/Astro.class
 hs/mcp/demomcp/model/APIResponse.class
-hs/mcp/demomcp/model/AstronomyAstro.class
 hs/mcp/demomcp/service/AstronomyService.class
 hs/mcp/demomcp/DemoMcpApplication.class
 hs/mcp/demomcp/model/Location.class
